@@ -1,0 +1,6 @@
+streamlit==1.37.1
+audio_recorder_streamlit==0.0.10
+openai==1.42.0
+gtts
+langdetect
+dotenv
