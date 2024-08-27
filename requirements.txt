@@ -1,6 +1,6 @@
 streamlit==1.37.1
 audio_recorder_streamlit==0.0.10
 openai==1.42.0
-gtts
-langdetect
-dotenv
+gtts==2.5.3
+langdetect==1.0.9
+python-dotenv==1.0.0
