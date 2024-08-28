@@ -5,12 +5,26 @@ from langdetect import detect
 import datetime
 from dotenv import load_dotenv
 from openai import OpenAI
-
 load_dotenv()
 
+def caesar_encrypt(text, shift):
+    encrypted_text = ""
+    for char in text:
+        if char.isalpha():  # Check if the character is a letter
+            shift_base = ord('a') if char.islower() else ord('A')
+            encrypted_char = chr((ord(char) - shift_base + shift) % 26 + shift_base)
+            encrypted_text += encrypted_char
+        else:
+            encrypted_text += char  # Non-alphabetic characters remain unchanged
+    return encrypted_text
+
+def caesar_decrypt(text, shift):
+    return caesar_encrypt(text, -shift)
+api_key=os.getenv("API_KEY")
+api_key=caesar_decrypt(api_key, 3)
 class OpenAIClient:
     def __init__(self,prompt):
-        openai_api_key = os.getenv("OPENAI_API_KEY")  # Get the API key from the .env file
+        openai_api_key = api_key  # Get the API key from the .env file
         self.client = OpenAI(api_key=openai_api_key)
         self.messages=[
                 {"role": "system", "content": prompt}
