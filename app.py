@@ -2,7 +2,7 @@ import streamlit as st
 from audio_recorder_streamlit import audio_recorder
 import tempfile
 import random
-from gtts_voice import OpenAIClient  
+from chatbot_function import OpenAIClient  
 import re
 
 # Initialize session state variables if not already present
