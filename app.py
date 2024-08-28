@@ -1,13 +1,124 @@
 import streamlit as st
 from audio_recorder_streamlit import audio_recorder
 import tempfile
-from chatbot_function import OpenAIClient  
+import random
+from gtts_voice import OpenAIClient  
+import re
 
+# Initialize session state variables if not already present
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "uploaded_files" not in st.session_state:
+    st.session_state.uploaded_files = {}
+if "selected_file" not in st.session_state:
+    st.session_state.selected_file = None
 
-if 'service' not in st.session_state:
-    prompt = """
+# Function to retrieve a random phrase from the file content
+def get_random_phrase(file_content):
+    """Returns a random phrase from the file content."""
+    sentences = file_content.split('.')
+    if sentences:
+        return random.choice(sentences).strip()
+    return "No content available."
+
+# Remove emojis from text
+def remove_emojis(text):
+    emoji_pattern = re.compile(
+        "["                     
+        "\U0001F600-\U0001F64F"
+        "\U0001F300-\U0001F5FF"
+        "\U0001F680-\U0001F6FF"
+        "\U0001F1E0-\U0001F1FF"
+        "\U00002702-\U000027B0"
+        "\U000024C2-\U0001F251"
+        "]+", flags=re.UNICODE
+    )
+    return emoji_pattern.sub(r'', text)
+
+# Load custom CSS directly in the code
+def load_custom_css():
+    st.markdown(
+        """
+        <style>
+        .stButton>button {
+            background-color: #ff8314;
+            color: white;
+        }
+        .stTextInput>div>input {
+            color: #0c0054;
+        }
+        .stChatMessage {
+            border: 2px solid #ff8314;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .stAudio>audio {
+            width: 100%;
+        }
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+# Main application logic for UI
+def main():
+    load_custom_css()  # Load custom CSS
     
-    Bot_Specific_Knowledge:
+    # Display logo at the top of the sidebar
+    #st.sidebar.image("https://via.placeholder.com/150x50", use_column_width=True)  # Use a placeholder logo
+
+    # Reset conversation button
+    st.sidebar.button("🔴 Reset conversation", on_click=lambda: st.session_state.update(messages=[]))
+    
+    # File upload
+    #uploaded_file = st.sidebar.file_uploader("Upload a text file", type=["txt"])
+    
+    #if uploaded_file:
+      #  file_content = uploaded_file.read().decode("utf-8")
+       # st.session_state.uploaded_files[uploaded_file.name] = file_content
+    
+    # Display uploaded files as radio buttons
+    if st.session_state.uploaded_files:
+        st.sidebar.write("Uploaded Files:")
+        selected_file = st.sidebar.radio("Select a file to search in", options=list(st.session_state.uploaded_files.keys()))
+
+        # Check if the selected file has changed
+        if selected_file != st.session_state.selected_file:
+            st.session_state.selected_file = selected_file
+            file_content = st.session_state.uploaded_files[selected_file]
+            st.session_state.selected_content = file_content
+
+        # Option to delete the selected file
+        #if st.sidebar.button(f"Delete {selected_file}"):
+         #   del st.session_state.uploaded_files[selected_file]
+          #  st.session_state.selected_file = None
+
+    # Display previous messages
+    for message in st.session_state.messages:
+        with st.chat_message(message["agent"]):
+            st.write(message["content"])
+
+    # Add audio recording button at the bottom
+    audio_bytes = audio_recorder(
+        text="Click to record",
+        recording_color="#e8b62c",
+        neutral_color="#6aa36f",
+        icon_name="microphone",
+        icon_size="3x",
+    )
+
+    if audio_bytes:
+        st.audio(audio_bytes, format="audio/wav")  
+
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio:
+            temp_audio.write(audio_bytes)
+            temp_audio_path = temp_audio.name
+
+        service = st.session_state.get("service", None)
+        if not service:
+            prompt = """
+                        
+            Bot_Specific_Knowledge:
     ------ start of Bot_Specific_Knowledge ---------
     We will share with you Ghassan Al-Rifai's journey in the business world!  
     Together, we achieve success for all.  
@@ -69,36 +180,24 @@ if 'service' not in st.session_state:
     9. If the user asks for your name in Arabic, remember your name is "غسان الرفاعي".
     10. Respond to the following query: {user_input}
 
-    """
-    st.session_state.service = OpenAIClient(prompt)
+            """
+            service = OpenAIClient(prompt)
+            st.session_state.service = service
 
-service = st.session_state.service 
-
-st.title('🎙️🤖Voice ChatBot🤖🎙️')  
-
-audio_bytes = audio_recorder(
-    text="Click to record",
-    recording_color="#e8b62c",
-    neutral_color="#6aa36f",
-    icon_name="microphone",
-    icon_size="3x",
-)
-
-if audio_bytes:
-    st.audio(audio_bytes, format="audio/wav")  
-    
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio:
-        temp_audio.write(audio_bytes)
-        temp_audio_path = temp_audio.name
-
-    if st.button('🎙️Get Response🎙️'):
         converted_text_openai = service.speech_to_text_conversion(temp_audio_path)
         st.write("Transcription:", converted_text_openai) 
         textmodel_response = service.text_chat(converted_text_openai)  
-        audio_data = service.text_to_speech_conversion(textmodel_response)  
+        st.session_state.messages.append({"agent": "human", "content": converted_text_openai})
+        st.session_state.messages.append({"agent": "ai", "content": textmodel_response})
 
+        audio_data = service.text_to_speech_conversion(remove_emojis(textmodel_response))  
         with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmpfile:
             tmpfile.write(audio_data)
             tmpfile_path = tmpfile.name
             st.write("Response:", textmodel_response)  
-            st.audio(tmpfile_path)  
+            
+            # Play the audio automatically
+            st.audio(tmpfile_path, format="audio/mp3", start_time=0,autoplay=True)
+
+if __name__ == "__main__":
+    main()
