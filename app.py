@@ -12,7 +12,7 @@ ai_endpoint_token = os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")
     
 # streamlit interface
 with st.container():
-    st.title("💬 Audio Virtual Assistant Chatbot")
+    st.title("💬 TD Virtual Assistant Chatbot")
     
 with st.container(height=600):
     messages = st.container()
