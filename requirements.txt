@@ -4,3 +4,4 @@ openai==1.42.0
 gtts==2.5.3
 langdetect==1.0.9
 python-dotenv==1.0.0
+streamlit_mic_recorder==0.0.8
