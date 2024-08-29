@@ -44,51 +44,44 @@ with st.container():
             Bot_Specific_Knowledge:
     ------ start of Bot_Specific_Knowledge ---------
     غسان الرفاعي
-    We will share with you Ghassan Al-Rifai's journey in the business world!  
-    Together, we achieve success for all.  
-    The key to business success is collaboration and innovation.
+    ### Empowering Business Growth: Ghassan's Method and Life Journey
 
-    ---
+**Passionate Business Advocate**  
+Ghassan Alrifai is dedicated to helping businesses grow and innovate. With 15 years of diverse experience, he supports aspiring entrepreneurs, believing in strategies that benefit everyone. His mantra, "together we all win," reflects his commitment to collaborative and mutually beneficial partnerships.
 
-    ### Strategic Leader
-    Discover the remarkable journey of Ghassan Al-Rifai as a business leader, where his innovative approach and belief in collective success define true achievement.
+**Early Education and Business Beginnings**  
+Ghassan’s journey began with a Diploma in English from Ramsgate Kent’s Regency School of English in 1997. Initially pursuing law at Beirut Arabia University, he transitioned to IT, eventually earning a diploma in Networking and Systems Engineering in 2003. At 19, while studying in Syria, he opened his first internet café in Homs, launching his entrepreneurial career. He also managed a coffee shop and participated in his family’s automobile business.
 
-    ### A Journey Full of Successes
-    Explore how the power of unity can elevate us to unprecedented heights. Welcome to a story where true victory lies in our shared success.
+**Family: The Cornerstone of His Life**  
+Family holds a special place in Ghassan’s life, shaping his values and priorities. Since his marriage in 2007, he has been a devoted husband and father of two children. Family moments, especially with his mother, who joined his household after his father's passing in 2012, are deeply cherished. His Syrian heritage, rich in business and politics, profoundly influences his perspectives and endeavors.
 
-    ### Celebrating Partnership
-    Uncover a story that highlights individual achievements while celebrating the strength of collaboration. Discover how Ghassan turns challenges into opportunities, creating pathways where everyone thrives together.
+**Professional Career: A Diverse Path Across Industries**  
+Ghassan's career began in 2004 in Qatar, where he gained experience across various industries. He managed servers for prestigious clients at HP, excelled in automotive sales at Al-Mannai, and served as a Business Development Officer at IBQ. His achievements include boosting business revenue by $400 million in 2008 and securing dealership deals with renowned German companies.
 
-    ### About Ghassan Al-Rifai
-    Ghassan Al-Rifai has established himself as a successful entrepreneur with a strong track record in business development and innovation. Throughout his career, he has gained valuable experience in various fields such as technology, sales, and strategic planning. With an outstanding entrepreneurial spirit, Mr. Al-Rifai has skillfully navigated the business world, demonstrating sharp insight in identifying opportunities and building successful ventures. Currently, his focus is on providing innovative business solutions to meet contemporary market challenges. His deep understanding of industry dynamics makes him a highly valuable asset in driving business growth and transformation.
+**A New Phase of Business Cooperation**  
+Ghassan excelled in the automotive industry, particularly at Automobile Al-Mannai, focusing on General Motors (GMC). Despite his success, he moved on to leverage his expertise in securing substantial deals for a new engineering firm, navigating challenges along the way.
 
-    ### The Story Behind Ghassan's Entrepreneurial Vision
-    This vision and mission are deeply rooted in Ghassan's personal journey, characterized by his unwavering entrepreneurial spirit, diverse experience, and steadfast belief in collaboration.
+**Establishing Successful Businesses**  
+Driven by entrepreneurial spirit, Ghassan embarked on establishing and managing businesses. Notably, he founded VGC, a testament to his determination and success in business.
 
-    ### Ghassan Al-Rifai: Vision, Mission, and Core Values
-    #### Vision: Shaping a Future of Innovation
-    Ghassan's vision is to empower entrepreneurs and create a vibrant environment of innovation and growth.
+**Revolutionizing Investment with Treasure Deal Invest INC**  
+One of Ghassan's major ventures is Treasure Deal Invest INC, an investment company poised to revolutionize the industry through innovative technology and a unique business model. Founded in the USA and expanding to the UAE and Qatar, the company aims to empower startups with a $120 million capital dedicated to supporting innovation and growth. Future plans include establishing a legal presence in the UK.
 
-    #### Mission: Guiding Success Through Expertise and Investment
-    Ghassan supports ambitious entrepreneurs through his extensive experience across various industries.
+**Commitment to Excellence**  
+Ghassan’s professional journey is marked by a commitment to excellence, innovation, and a customer-centric approach. His success across various industries showcases his expertise and forward-thinking mindset.
 
-    ### Core Values: Pillars of Ghassan's Approach
-    Ghassan's core values revolve around collaboration, innovation, growth, and impact.
+**Current and Upcoming Ventures**  
+As a Venture Partner, Ghassan plays a crucial role in identifying and evaluating new investment opportunities, offering strategic support, and managing relationships with a vast network of startups and investors. His upcoming ventures include Treasure Deal Group, a business conglomerate specializing in cutting-edge solutions across 18 industries, and Veteran General Contracting (VGC), where he serves as CEO, providing top-tier facilities management services in Qatar.
 
-    ### Career: A Leader Across Industries
-    Ghassan's career journey began in 2004 in Qatar, where he launched his career with enthusiasm in various industries.
+**Ghasan Al-Refai's Successful Ventures**  
+Ghassan has been instrumental in transforming numerous startups into market giants. Through his guidance and expertise, these companies have overcome challenges, achieved significant growth, and expanded into new markets.
 
-    ### A New Phase of Business Collaboration
-    Ghassan made a notable mark in the automotive industry, particularly during his time with Al-Mana Automotive, where he focused on the GMC brand.
+**Coming Soon: Treasure Deal Invest**  
+Ghassan's upcoming project, Treasure Deal Invest, is focused on nurturing 36 startups over the next three years, with a strategic vision extending to the GCC and Europe. This dynamic investment firm aims to streamline the investment journey, providing easier access to capital and empowering the next generation of pioneering businesses.
 
-    ### The Phase of Establishing Successful Businesses
-    True to his entrepreneurial spirit, Ghassan embarked on a challenging journey to establish and manage businesses.
+---
 
-    ### Treasure Deal: A Success Story
-    Treasure Deal Invest INC, one of Ghassan’s flagship projects, seeks to revolutionize the investment world through the use of modern technology and an innovative business model.
-
-    ### Excellence as a Core Value
-    Ghassan Al-Rifai's professional journey is a living testament to his unwavering dedication to excellence and innovation.
+*Note: The content could be further enriched with suitable images or photographs of Ghassan Alrifai and his family, and milestones could be highlighted using blocks or cards for a visually appealing presentation.*
     
     ----------- end of Bot_Specific_Knowledge --------------------
     
