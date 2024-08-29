@@ -1,125 +1,49 @@
+import os
+import numpy as np
+from dotenv import load_dotenv
 import streamlit as st
-from audio_recorder_streamlit import audio_recorder
+from streamlit_mic_recorder import mic_recorder
+from chatbot_function import OpenAIClient 
 import tempfile
-import random
-from chatbot_function import OpenAIClient  
-import re
-
-# Initialize session state variables if not already present
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-if "uploaded_files" not in st.session_state:
-    st.session_state.uploaded_files = {}
-if "selected_file" not in st.session_state:
-    st.session_state.selected_file = None
-
-# Function to retrieve a random phrase from the file content
-def get_random_phrase(file_content):
-    """Returns a random phrase from the file content."""
-    sentences = file_content.split('.')
-    if sentences:
-        return random.choice(sentences).strip()
-    return "No content available."
-
-# Remove emojis from text
-def remove_emojis(text):
-    emoji_pattern = re.compile(
-        "["                     
-        "\U0001F600-\U0001F64F"
-        "\U0001F300-\U0001F5FF"
-        "\U0001F680-\U0001F6FF"
-        "\U0001F1E0-\U0001F1FF"
-        "\U00002702-\U000027B0"
-        "\U000024C2-\U0001F251"
-        "]+", flags=re.UNICODE
-    )
-    return emoji_pattern.sub(r'', text)
-
-# Load custom CSS directly in the code
-def load_custom_css():
-    st.markdown(
-        """
-        <style>
-        .stButton>button {
-            background-color: #ff8314;
-            color: white;
-        }
-        .stTextInput>div>input {
-            color: #0c0054;
-        }
-        .stChatMessage {
-            border: 2px solid #ff8314;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .stAudio>audio {
-            width: 100%;
-        }
-        </style>
-        """, unsafe_allow_html=True
-    )
-
-# Main application logic for UI
-def main():
-    load_custom_css()  # Load custom CSS
+import io
+# access the environment variables from the .env file
+load_dotenv()
+ai_endpoint_token = os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")
     
-    # Display logo at the top of the sidebar
-    #st.sidebar.image("https://via.placeholder.com/150x50", use_column_width=True)  # Use a placeholder logo
-
-    # Reset conversation button
-    st.sidebar.button("🔴 Reset conversation", on_click=lambda: st.session_state.update(messages=[]))
+# streamlit interface
+with st.container():
+    st.title("💬 Audio Virtual Assistant Chatbot")
     
-    # File upload
-    #uploaded_file = st.sidebar.file_uploader("Upload a text file", type=["txt"])
+with st.container(height=600):
+    messages = st.container()
     
-    #if uploaded_file:
-      #  file_content = uploaded_file.read().decode("utf-8")
-       # st.session_state.uploaded_files[uploaded_file.name] = file_content
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [{"role": "system", "content": 
+"Hello, I'm Ghassan!", "avatar":"🤖"}]
     
-    # Display uploaded files as radio buttons
-    if st.session_state.uploaded_files:
-        st.sidebar.write("Uploaded Files:")
-        selected_file = st.sidebar.radio("Select a file to search in", options=list(st.session_state.uploaded_files.keys()))
+    for msg in st.session_state.messages:
+        messages.chat_message(msg["role"], 
+avatar=msg["avatar"]).write(msg["content"])
 
-        # Check if the selected file has changed
-        if selected_file != st.session_state.selected_file:
-            st.session_state.selected_file = selected_file
-            file_content = st.session_state.uploaded_files[selected_file]
-            st.session_state.selected_content = file_content
+with st.container():
 
-        # Option to delete the selected file
-        #if st.sidebar.button(f"Delete {selected_file}"):
-         #   del st.session_state.uploaded_files[selected_file]
-          #  st.session_state.selected_file = None
-
-    # Display previous messages
-    for message in st.session_state.messages:
-        with st.chat_message(message["agent"]):
-            st.write(message["content"])
-
-    # Add audio recording button at the bottom
-    audio_bytes = audio_recorder(
-        text="Click to record",
-        recording_color="#e8b62c",
-        neutral_color="#6aa36f",
-        icon_name="microphone",
-        icon_size="3x",
-    )
-
-    if audio_bytes:
-        st.audio(audio_bytes, format="audio/wav")  
-
-        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio:
-            temp_audio.write(audio_bytes)
-            temp_audio_path = temp_audio.name
-
+    placeholder = st.empty()
+    _, recording = placeholder.empty(), mic_recorder(
+            start_prompt="START RECORDING YOUR QUESTION ⏺️", 
+            stop_prompt="STOP ⏹️", 
+            format="wav",
+            use_container_width=True,
+            key='recorder'
+        )
+    
+    if recording:  
         service = st.session_state.get("service", None)
         if not service:
             prompt = """
-                        
+              You Are a snart bot called 'TD bot'          
             Bot_Specific_Knowledge:
     ------ start of Bot_Specific_Knowledge ---------
+    غسان الرفاعي
     We will share with you Ghassan Al-Rifai's journey in the business world!  
     Together, we achieve success for all.  
     The key to business success is collaboration and innovation.
@@ -177,27 +101,29 @@ def main():
     6. Use a casual tone and speak as if you are talking to a friend, using informal language if appropriate.
     7. Include appropriate sentiments in your responses to make the conversation feel natural and engaging. Use emojis 😊👍 to convey emotions.
     8. Be interactive and use your communication skills to intelligently encourage the user to continue the conversation within Bot_Specific_Knowledge.
-    9. If the user asks for your name in Arabic, remember your name is "غسان الرفاعي".
-    10. Respond to the following query: {user_input}
+    9. Respond to the following query: {user_input}
 
             """
             service = OpenAIClient(prompt)
             st.session_state.service = service
-
-        converted_text_openai = service.speech_to_text_conversion(temp_audio_path)
-        st.write("Transcription:", converted_text_openai) 
-        textmodel_response = service.text_chat(converted_text_openai)  
-        st.session_state.messages.append({"agent": "human", "content": converted_text_openai})
-        st.session_state.messages.append({"agent": "ai", "content": textmodel_response})
-
-        audio_data = service.text_to_speech_conversion(remove_emojis(textmodel_response))  
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmpfile:
-            tmpfile.write(audio_data)
-            tmpfile_path = tmpfile.name
-            st.write("Response:", textmodel_response)  
+        audio_bio = io.BytesIO(recording['bytes'])  
+        audio_bio.name = 'audio.mp3'
+        user_question = service.speech_to_text_conversion(audio_bio)
+        
+        if user_question:
+            bot_response = service.text_chat(user_question)
+            st.session_state.messages.append({"role": "user", "content": 
+user_question, "avatar":"👤"})
             
-            # Play the audio automatically
-            st.audio(tmpfile_path, format="audio/mp3", start_time=0,autoplay=True)
-
-if __name__ == "__main__":
-    main()
+            st.session_state.messages.append({"role": "system", "content": 
+bot_response, "avatar": "🤖"})
+            
+            if bot_response is not None:
+                audio_data = service.text_to_speech_conversion(bot_response)  
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmpfile:
+                    tmpfile.write(audio_data)
+                    tmpfile_path = tmpfile.name
+                    
+                    # Play the audio automatically
+                    placeholder.audio(tmpfile_path, format="audio/mp3", start_time=0,autoplay=True)
+                        
