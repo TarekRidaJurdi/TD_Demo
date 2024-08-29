@@ -19,7 +19,7 @@ with st.container(height=600):
     
     if "messages" not in st.session_state:
         st.session_state["messages"] = [{"role": "system", "content": 
-"Hello, I'm Ghassan!", "avatar":"🤖"}]
+"Hello, I'm TD bot!", "avatar":"🤖"}]
     
     for msg in st.session_state.messages:
         messages.chat_message(msg["role"], 
