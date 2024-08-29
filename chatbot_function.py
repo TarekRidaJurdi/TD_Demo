@@ -28,10 +28,9 @@ class OpenAIClient:
             ]
         
 
-    def speech_to_text_conversion(self, file_path):
+    def speech_to_text_conversion(self, audio_file):
         """Converts audio format message to text using OpenAI's Whisper model."""
-        with open(file_path, "rb") as audio_file:
-            transcription = self.client.audio.transcriptions.create(
+        transcription = self.client.audio.transcriptions.create(
                 model="whisper-1",  # Model to use for transcription
                 file=audio_file  # Audio file to transcribe
             )
